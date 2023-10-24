@@ -1,7 +1,6 @@
 package com.ninja.security.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ninja.security.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

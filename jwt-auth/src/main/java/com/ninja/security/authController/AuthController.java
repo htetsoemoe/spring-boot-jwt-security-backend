@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ninja.security.authService.AuthenticationService;
+import com.ninja.security.dto.AuthenticationRequest;
 import com.ninja.security.dto.AuthenticationResponse;
 import com.ninja.security.dto.RegisterRequest;
 
@@ -22,6 +23,11 @@ public class AuthController {
 	@PostMapping("register")
 	public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
 		return ResponseEntity.ok(authenticationService.register(request));
+	}
+	
+	@PostMapping("login")
+	public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
+		return ResponseEntity.ok(authenticationService.login(request));
 	}
 
 }

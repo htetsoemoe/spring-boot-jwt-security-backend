@@ -1,4 +1,4 @@
-package com.ninja.security.authorizedControllers;
+package com.ninja.security.authController;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
