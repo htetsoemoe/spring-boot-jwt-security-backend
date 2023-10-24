@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import com.ninja.security.entity.Role;
 
@@ -28,6 +30,8 @@ public class SecurityConfiguration {
 	private final AuthenticationProvider authenticationProvider;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final AuthEntryPointJwt authEntryPointJwt;
+	private final LogoutHandler logoutHandler;
+	private final LogoutSuccessHandler logoutSuccessHandler;
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,7 +45,12 @@ public class SecurityConfiguration {
 			.exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPointJwt))
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authenticationProvider(authenticationProvider)
-			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+			.logout(logout ->
+				logout.logoutUrl("/api/v1/auth/logout")
+				.addLogoutHandler(logoutHandler)
+				.logoutSuccessHandler(logoutSuccessHandler) // clear SecurityContextHolder and return logoutResponse JSON
+			);
 		
 		return http.build();
 	}
